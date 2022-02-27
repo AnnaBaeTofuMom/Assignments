@@ -12,6 +12,7 @@ target 'BrandiAssignment' do
   pod 'Kingfisher', '~> 7.1.2'
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'NotificationBannerSwift', '~> 3.0.0'
   
 
 end

@@ -10,15 +10,11 @@ import SwiftyJSON
 
 class APIService {
     
-    enum StatusCode : Int {
-        case success = 200
-        case badRequest = 400
-        case serverError = 500
-    }
+
     
    
     
-    static func getNewImage(word: String, page: Int, completion: @escaping (DaumImage?, StatusCode?) -> Void) {
+    static func getNewImage(word: String, page: Int, completion: @escaping (DaumImage?, Int?) -> Void) {
         
         let params = [
             "query": word,
@@ -41,7 +37,7 @@ class APIService {
             print(res.result)
             print("============================================")
 
-            completion(res.value, nil)
+            completion(res.value, res.response?.statusCode)
         }
         
         

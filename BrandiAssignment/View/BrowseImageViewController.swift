@@ -10,6 +10,7 @@ import SnapKit
 import Kingfisher
 import RxSwift
 import RxCocoa
+import NotificationBannerSwift
 
 class BrowseImageViewController: UIViewController {
     let viewModel = BrowseImageViewModel()
@@ -47,13 +48,19 @@ class BrowseImageViewController: UIViewController {
         collectionView.backgroundColor = .clear
         
         
+        viewModel.noResult.bind { b in
+            if b == true {
+                let banner = FloatingNotificationBanner(title: "검색 결과가 없습니다!", subtitle: "다른 키워드로 검색해 보세요.", style: .warning)
+                banner.show()
+            }
+        }
+        
         searchBar.searchBar.rx.text.orEmpty.debounce(.seconds(1), scheduler: MainScheduler.asyncInstance).subscribe { text in
             self.viewModel.getImage(word: text) { daumImage, statuscode in
                 self.scrollFlag = false
                 self.collectionView.reloadData()
             }
         }.disposed(by: disposeBag)
-        
         
     }
     
@@ -79,10 +86,13 @@ extension BrowseImageViewController: UICollectionViewDelegate, UICollectionViewD
         
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       print("======아이템 정보=====")
+        print(self.viewModel.images[indexPath.item].datetime)
+        print(self.viewModel.images[indexPath.item].displaySitename)
+    }
     
     
-    
-
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let position = scrollView.contentOffset.y
     
@@ -90,7 +100,7 @@ extension BrowseImageViewController: UICollectionViewDelegate, UICollectionViewD
             scrollFlag = false
         } else {
             if scrollFlag == false {
-                self.viewModel.getImage(word: self.searchBar.searchBar.text ?? "") { daumImage, statusCode in
+                self.viewModel.addImage(word: self.searchBar.searchBar.text ?? "") { daumImage, statusCode in
                     self.collectionView.reloadData()
                 }
                 scrollFlag = true
@@ -132,6 +142,7 @@ extension BrowseImageViewController: UICollectionViewDelegate, UICollectionViewD
         return 3
     }
     
+  
     
     
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A1F697127CBD68A00E6556C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1F697027CBD68A00E6556C /* Observable.swift */; };
+		3A1F697327CBE20F00E6556C /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1F697227CBE20F00E6556C /* DetailViewController.swift */; };
 		3A2C8F5427C7E737006930D9 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2C8F5327C7E737006930D9 /* ImageCollectionViewCell.swift */; };
 		3A6221B827C7CF7000867D78 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6221B727C7CF7000867D78 /* AppDelegate.swift */; };
 		3A6221BA27C7CF7000867D78 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6221B927C7CF7000867D78 /* SceneDelegate.swift */; };
@@ -24,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A1F697027CBD68A00E6556C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Observable.swift; path = BrandiAssignment/ViewModel/Observable.swift; sourceTree = SOURCE_ROOT; };
+		3A1F697227CBE20F00E6556C /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		3A2C8F5327C7E737006930D9 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		3A6221B427C7CF7000867D78 /* BrandiAssignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrandiAssignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A6221B727C7CF7000867D78 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +109,7 @@
 		3A6221D527C7D01A00867D78 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				3A1F697027CBD68A00E6556C /* Observable.swift */,
 				3A6221D627C7D01A00867D78 /* Codable.swift */,
 			);
 			path = Model;
@@ -123,6 +128,7 @@
 			children = (
 				3A6221BB27C7CF7000867D78 /* BrowseImageViewController.swift */,
 				3A2C8F5327C7E737006930D9 /* ImageCollectionViewCell.swift */,
+				3A1F697227CBE20F00E6556C /* DetailViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -259,8 +265,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A1F697127CBD68A00E6556C /* Observable.swift in Sources */,
 				3A2C8F5427C7E737006930D9 /* ImageCollectionViewCell.swift in Sources */,
 				3A6221D427C7D00900867D78 /* Endpoint.swift in Sources */,
+				3A1F697327CBE20F00E6556C /* DetailViewController.swift in Sources */,
 				3A6221BC27C7CF7000867D78 /* BrowseImageViewController.swift in Sources */,
 				3A6221D727C7D01A00867D78 /* Codable.swift in Sources */,
 				3A6221D227C7D00900867D78 /* APIService.swift in Sources */,
