@@ -31,7 +31,8 @@ class BrowseImageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-   
+        
+        
         self.navigationItem.searchController = searchBar
         self.navigationItem.title = "이미지 검색"
         collectionView.delegate = self
@@ -52,6 +53,7 @@ class BrowseImageViewController: UIViewController {
             if b == true {
                 let banner = FloatingNotificationBanner(title: "검색 결과가 없습니다!", subtitle: "다른 키워드로 검색해 보세요.", style: .warning)
                 banner.show()
+               
             }
         }
         
@@ -87,9 +89,13 @@ extension BrowseImageViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       print("======아이템 정보=====")
-        print(self.viewModel.images[indexPath.item].datetime)
-        print(self.viewModel.images[indexPath.item].displaySitename)
+       
+        let dvc = DetailViewController()
+        let url = URL(string: viewModel.images[indexPath.item].imageURL)
+        dvc.imageUrl = url!
+        dvc.sitename = self.viewModel.images[indexPath.item].displaySitename
+        dvc.datetime = self.viewModel.images[indexPath.item].datetime
+        self.navigationController?.pushViewController(dvc, animated: true)
     }
     
     
