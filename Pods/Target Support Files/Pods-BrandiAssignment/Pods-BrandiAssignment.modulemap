@@ -1,0 +1,6 @@
+framework module Pods_BrandiAssignment {
+  umbrella header "Pods-BrandiAssignment-umbrella.h"
+
+  export *
+  module * { export * }
+}
