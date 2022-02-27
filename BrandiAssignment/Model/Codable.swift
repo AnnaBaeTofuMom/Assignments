@@ -1,6 +1,6 @@
 //
 //  Codable.swift
-//  Brandi01
+//  BrandiAssignment
 //
 //  Created by 경원이 on 2022/02/24.
 //

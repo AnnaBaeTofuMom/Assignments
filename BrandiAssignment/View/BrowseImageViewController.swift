@@ -8,10 +8,13 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import RxSwift
+import RxCocoa
 
 class BrowseImageViewController: UIViewController {
     let viewModel = BrowseImageViewModel()
-    
+    let disposeBag = DisposeBag()
+    var scrollFlag = true
     let collectionView: UICollectionView = {
            
            let layout = UICollectionViewFlowLayout()
@@ -24,13 +27,7 @@ class BrowseImageViewController: UIViewController {
        }()
     let searchBar = UISearchController()
     
-    override func viewDidLayoutSubviews() {
-        viewModel.getImage(word: "이상한 고양이", page: 1) { daumImage, statusCode in
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-        }
-    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
    
@@ -39,6 +36,7 @@ class BrowseImageViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: ImageCollectionViewCell.identifier)
+        searchBar.searchBar.delegate = self
         configure()
         makeConstraints()
     }
@@ -48,6 +46,13 @@ class BrowseImageViewController: UIViewController {
         view.backgroundColor = .white
         collectionView.backgroundColor = .clear
         
+        
+        searchBar.searchBar.rx.text.orEmpty.debounce(.seconds(1), scheduler: MainScheduler.asyncInstance).subscribe { text in
+            self.viewModel.getImage(word: text) { daumImage, statuscode in
+                self.scrollFlag = false
+                self.collectionView.reloadData()
+            }
+        }.disposed(by: disposeBag)
         
         
     }
@@ -63,7 +68,40 @@ class BrowseImageViewController: UIViewController {
 
 }
 
-extension BrowseImageViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+extension BrowseImageViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UIScrollViewDelegate, UISearchBarDelegate{
+  
+    
+    
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        viewModel.clearCollectionView()
+        collectionView.reloadData()
+        
+    }
+    
+    
+    
+    
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+    
+        if position < (collectionView.contentSize.height-100-scrollView.frame.size.height) {
+            scrollFlag = false
+        } else {
+            if scrollFlag == false {
+                self.viewModel.getImage(word: self.searchBar.searchBar.text ?? "") { daumImage, statusCode in
+                    self.collectionView.reloadData()
+                }
+                scrollFlag = true
+            }
+
+        }
+        
+    }
+    
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.images.count
     }

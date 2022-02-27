@@ -10,5 +10,8 @@ target 'BrandiAssignment' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'Kingfisher', '~> 7.1.2'
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  
 
 end
