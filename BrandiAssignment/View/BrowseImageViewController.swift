@@ -51,18 +51,33 @@ class BrowseImageViewController: UIViewController {
         
         viewModel.noResult.bind { b in
             if b == true {
-                let banner = FloatingNotificationBanner(title: "검색 결과가 없습니다!", subtitle: "다른 키워드로 검색해 보세요.", style: .warning)
-                banner.show()
+                
+                self.showBanner(title: "검색결과가 없습니다!", subtitle: "다른 키워드로 검색해 보세요.")
+                
                
             }
         }
         
         searchBar.searchBar.rx.text.orEmpty.debounce(.seconds(1), scheduler: MainScheduler.asyncInstance).subscribe { text in
             self.viewModel.getImage(word: text) { daumImage, statuscode in
-                self.scrollFlag = false
-                self.collectionView.reloadData()
+                switch statuscode {
+                case 200:
+                    self.scrollFlag = false
+                    self.collectionView.reloadData()
+                case 400:
+                    self.scrollFlag = false
+                    self.collectionView.reloadData()
+                case .none:
+                    self.showBanner(title: "검색에 실패했습니다.", subtitle: "잠시 후 다시 요청해주세요")
+                case .some(_):
+                    self.showBanner(title: "검색에 실패했습니다.", subtitle: "잠시 후 다시 요청해주세요")
+                }
+                
+                
             }
         }.disposed(by: disposeBag)
+
+
         
     }
     
@@ -72,6 +87,12 @@ class BrowseImageViewController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalToSuperview().inset(5)
         }
+    }
+    
+    func showBanner(title: String, subtitle: String) {
+        let banner = FloatingNotificationBanner(title: title, subtitle: subtitle, style: .warning)
+        banner.show()
+        
     }
 
 
@@ -100,6 +121,10 @@ extension BrowseImageViewController: UICollectionViewDelegate, UICollectionViewD
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if self.viewModel.images.count == 0 {
+            return
+        }
         let position = scrollView.contentOffset.y
     
         if position < (collectionView.contentSize.height-100-scrollView.frame.size.height) {
@@ -108,7 +133,7 @@ extension BrowseImageViewController: UICollectionViewDelegate, UICollectionViewD
             if scrollFlag == false {
                 self.viewModel.addImage(word: self.searchBar.searchBar.text ?? "") { daumImage, statusCode in
                     self.collectionView.reloadData()
-                }
+                                    }
                 scrollFlag = true
             }
 

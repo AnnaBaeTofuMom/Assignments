@@ -26,9 +26,8 @@ class BrowseImageViewModel {
             
             DispatchQueue.global().asyncAfter(deadline: .now() + 1) {
                 APIService.getNewImage(word: word, page: self.pageCount) { daumImage, statuscode in
-                    if statuscode == 400 {
-                        completion(nil, statuscode)
-                    } else {
+                    switch statuscode {
+                    case 200:
                         if let daumImage = daumImage {
                             self.images += daumImage.documents
                             self.isEnd = daumImage.meta.isEnd
@@ -39,10 +38,15 @@ class BrowseImageViewModel {
                         if self.images.count == 0 {
                             self.noResult.value = true
                         }
-                        print(self.images.count)
-                        print("이만큼 있음")
+                    case 400:
+                        completion(nil, statuscode)
+                        
+                    case .none:
+                        completion(nil, nil)
+                    case .some(_):
+                        completion(nil, nil)
                     }
-                    
+
                     
                 }
             }

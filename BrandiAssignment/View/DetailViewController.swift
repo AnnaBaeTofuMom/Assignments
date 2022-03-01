@@ -35,6 +35,8 @@ class DetailViewController: UIViewController {
         
     }
     
+    
+    
     private func configure() {
         sitenameLabel.font = .systemFont(ofSize: 14)
         sitenameLabel.text = "출처 : \(sitename)"
@@ -51,10 +53,8 @@ class DetailViewController: UIViewController {
             
         }
 
-        
-       
-
     }
+    
     
     private func makeConstraints() {
         

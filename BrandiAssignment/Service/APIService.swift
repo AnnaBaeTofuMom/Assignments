@@ -31,12 +31,7 @@ class APIService {
         let url = Endpoint.request.url
         
         AF.request(url, method: .get, parameters: params, headers: headers).validate().responseDecodable(of: DaumImage.self) { res in
-            print("=================")
-            print("this is status code")
-            print(res.response?.statusCode)
-            print(res.result)
-            print("============================================")
-
+            
             completion(res.value, res.response?.statusCode)
         }
         
